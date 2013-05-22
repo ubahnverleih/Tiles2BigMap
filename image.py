@@ -1,5 +1,6 @@
 from PIL import Image
 import urllib2
+from urlparse import urlparse, parse_qs
 
 # permalink for this map: http://openstreetmap.gryph.de/bigmap.cgi?xmin=8815&xmax=8818&ymin=5480&ymax=5482&zoom=14&scale=256&baseurl=http%3A%2F%2Ftile.openstreetmap.org%2F!z%2F!x%2F!y.png
 
@@ -12,6 +13,20 @@ scale = 256;
 tileserver = "http://tile.openstreetmap.org/!z/!x/!y.png"; #osm
 #tileserver = "http://otile1.mqcdn.com/tiles/1.0.0/map/!z/!x/!y.jpg"; #mapquest
 
+
+url = "http://openstreetmap.gryph.de/bigmap.cgi?xmin=4435&xmax=4438&ymin=2736&ymax=2738&zoom=13&baseurl=http%3A%2F%2Ftile.openstreetmap.org%2F!z%2F!x%2F!y.png"
+#parse bigmap URL
+urlparams = parse_qs(urlparse(url).query)
+xmin = int(urlparams["xmin"][0]);
+xmax = int(urlparams["xmax"][0]);
+ymin = int(urlparams["ymin"][0]);
+ymax = int(urlparams["ymax"][0]);
+zoom = int(urlparams["zoom"][0]);
+try:
+	scale = int(urlparams["scale"][0]);
+except:
+	scale = 256
+tileserver = urlparams["baseurl"][0];
 
 
 #Aus tileserver URL und tileinfos wird tileURL generiert
