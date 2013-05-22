@@ -9,7 +9,22 @@ ymin = 5490;
 ymax = 5492;
 zoom = 14;
 scale = 256;
-url = "http://tile.openstreetmap.org/!z/!x/!y.png";
+tileserver = "http://tile.openstreetmap.org/!z/!x/!y.png"; #osm
+#tileserver = "http://otile1.mqcdn.com/tiles/1.0.0/map/!z/!x/!y.jpg"; #mapquest
+
+
+
+#Aus tileserver URL und tileinfos wird tileURL generiert
+def getTileURL(tileserver, x, y, z):
+	tileserver = tileserver.replace("!x",str(x))
+	tileserver = tileserver.replace("!y",str(y))
+	tileserver = tileserver.replace("!z",str(z))
+	return tileserver
+
+
+
+
+
 
 width = (xmax-xmin)*scale;
 height = (ymax-ymin)*scale;
@@ -27,7 +42,7 @@ for x in range(xmin, xmax):
 		headers = { 'User-Agent' : 'Tiles2BigMap' }
 
 		#url bauen
-		tileurl = 'http://tile.openstreetmap.org/'+str(zoom)+'/'+str(x)+'/'+str(y)+'.png'
+		tileurl = getTileURL(tileserver,x,y,zoom)# 'http://tile.openstreetmap.org/'+str(zoom)+'/'+str(x)+'/'+str(y)+'.png'
 
 		#request
 		req = urllib2.Request(tileurl, None, headers)
@@ -48,3 +63,6 @@ for x in range(xmin, xmax):
 
 mainimage.save("./karte.png","PNG")
 mainimage.show()
+
+
+
