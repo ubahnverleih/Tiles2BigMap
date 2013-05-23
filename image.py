@@ -9,6 +9,7 @@ from optparse import OptionParser
 parser = OptionParser()
 
 parser.add_option("-u", "--url", dest="url")
+parser.add_option("-o", "--outputfile", dest="output")
 
 (optionen, args) = parser.parse_args()
 
@@ -88,8 +89,17 @@ for x in range(xmin, xmax):
 		mainimage.paste(b,(xanz*scale,yanz*scale,(xanz+1)*scale,(yanz+1)*scale))
 
 
+#output
 
-mainimage.save("./karte.png","PNG")
+try:
+	if(len(optionen.output)>0):
+		outputfilename = optionen.output
+	else:
+		outputfilename = "./karte.png"
+except:
+	outputfilename = "./karte.png"
+
+mainimage.save(outputfilename,"PNG")
 mainimage.show()
 
 
